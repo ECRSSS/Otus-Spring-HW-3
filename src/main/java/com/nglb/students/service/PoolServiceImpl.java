@@ -3,6 +3,7 @@ package com.nglb.students.service;
 import com.nglb.students.domain.Question;
 import com.nglb.students.domain.TestResult;
 import com.nglb.students.domain.User;
+import com.nglb.students.util.Utils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class PoolServiceImpl implements PoolService {
     private boolean ask(Question question) {
         System.out.println(localizationService.getMessage("question") + question.getText());
         List<String> answers = question.getAllAnswersInRandomOrder();
-        System.out.println("Возможные ответы:");
+        System.out.println(localizationService.getMessage("answers"));
         for (int i = 0; i < answers.size(); i++) {
             System.out.println(i + 1 + ". " + answers.get(i));
         }
@@ -48,7 +49,7 @@ public class PoolServiceImpl implements PoolService {
     }
 
     private int getAnswer() {
-        System.out.println("Введите номер правильного ответа: ");
-        return scanner.nextInt();
+        System.out.println(localizationService.getMessage("inputRightAnswer"));
+        return Utils.scanner.nextInt();
     }
 }
