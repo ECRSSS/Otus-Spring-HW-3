@@ -1,0 +1,7 @@
+spring:
+  messages:
+    basename: i18n/bundle
+    encoding: UTF-8
+
+localization:
+  locale: ru
