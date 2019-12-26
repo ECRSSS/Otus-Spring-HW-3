@@ -5,6 +5,7 @@ import com.nglb.students.domain.Question;
 import com.nglb.students.domain.TestResult;
 import com.nglb.students.domain.User;
 
+import com.nglb.students.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
@@ -34,10 +35,7 @@ public class TestingRunnerImpl implements TestingRunner {
             User user = readUser();
             List<Question> questions = questionsDao.readQuestions(localizationService.getLocalizedFile("testItems"));
             TestResult result = poolService.startPool(user, questions);
-            System.out.println("Пользователь " + user + " правильно ответил на "
-                    + result.getNumOfRightAnswers() + "из "
-                    + (result.getNumOfRightAnswers() + result.getNumOfIncorrectAnswers())
-                    + "вопросов");
+            System.out.println(String.format(localizationService.getMessage("userResult"),user,result.getNumOfRightAnswers(),result.getNumOfRightAnswers() + result.getNumOfIncorrectAnswers()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,11 +43,10 @@ public class TestingRunnerImpl implements TestingRunner {
 
     private User readUser() {
         User user = new User();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите имя: ");
-        user.setFirstName(scanner.nextLine());
-        System.out.println("Введите фамилию: ");
-        user.setLastName(scanner.nextLine());
+        System.out.println(localizationService.getMessage("inputName"));
+        user.setFirstName(Utils.scanner.nextLine());
+        System.out.println(localizationService.getMessage("inputLastName"));
+        user.setLastName(Utils.scanner.nextLine());
         return user;
     }
 }

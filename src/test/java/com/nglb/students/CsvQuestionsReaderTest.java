@@ -4,6 +4,7 @@ import com.nglb.students.dao.CsvQuestionsReader;
 import com.nglb.students.dao.QuestionsDao;
 import com.nglb.students.domain.Question;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 
@@ -16,7 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class CsvQuestionsReaderTest {
 
-    QuestionsDao dao =  new CsvQuestionsReader();
+    @Autowired
+    QuestionsDao dao;
 
     @Test
     void readTest() throws IOException {
