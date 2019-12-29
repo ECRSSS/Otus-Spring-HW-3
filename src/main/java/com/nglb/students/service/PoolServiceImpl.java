@@ -3,22 +3,23 @@ package com.nglb.students.service;
 import com.nglb.students.domain.Question;
 import com.nglb.students.domain.TestResult;
 import com.nglb.students.domain.User;
-import com.nglb.students.util.Utils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 @RequiredArgsConstructor
 public class PoolServiceImpl implements PoolService {
 
-    private final Scanner scanner = new Scanner(System.in);
 
     @NonNull
     private final LocaleService localizationService;
+
+    @NonNull
+    private final IOService ioService;
+
 
     @Override
     public TestResult startPool(User user, List<Question> questions) {
@@ -30,7 +31,6 @@ public class PoolServiceImpl implements PoolService {
                 result.incrementIncorrect();
             }
         });
-        scanner.close();
         return result;
     }
 
@@ -50,6 +50,6 @@ public class PoolServiceImpl implements PoolService {
 
     private int getAnswer() {
         System.out.println(localizationService.getMessage("inputRightAnswer"));
-        return Utils.scanner.nextInt();
+        return Integer.parseInt(ioService.readLine());
     }
 }
