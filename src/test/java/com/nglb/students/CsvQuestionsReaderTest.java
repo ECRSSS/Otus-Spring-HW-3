@@ -1,12 +1,12 @@
 package com.nglb.students;
 
-import com.nglb.students.dao.CsvQuestionsReader;
 import com.nglb.students.dao.QuestionsDao;
 import com.nglb.students.domain.Question;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = { InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=" + false })
 public class CsvQuestionsReaderTest {
 
     @Autowired

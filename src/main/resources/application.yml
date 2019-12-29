@@ -3,5 +3,9 @@ spring:
     basename: i18n/bundle
     encoding: UTF-8
 
+#logging:
+#  level:
+#    ROOT: DEBUG
+
 localization:
   locale: ru

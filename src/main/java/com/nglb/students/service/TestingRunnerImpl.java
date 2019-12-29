@@ -4,19 +4,14 @@ import com.nglb.students.dao.QuestionsDao;
 import com.nglb.students.domain.Question;
 import com.nglb.students.domain.TestResult;
 import com.nglb.students.domain.User;
-
-import com.nglb.students.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 
 import java.util.List;
-import java.util.Scanner;
 
-@Service
+@ShellComponent
 @AllArgsConstructor
 public class TestingRunnerImpl implements TestingRunner {
 
@@ -29,24 +24,30 @@ public class TestingRunnerImpl implements TestingRunner {
     @NonNull
     private final LocaleService localizationService;
 
+    @NonNull
+    private final IOService ioService;
+
+
     @Override
-    public void start() {
+    @ShellMethod("Start student testing")
+    public String start() {
         try {
             User user = readUser();
             List<Question> questions = questionsDao.readQuestions(localizationService.getLocalizedFile("testItems"));
             TestResult result = poolService.startPool(user, questions);
-            System.out.println(String.format(localizationService.getMessage("userResult"),user,result.getNumOfRightAnswers(),result.getNumOfRightAnswers() + result.getNumOfIncorrectAnswers()));
+            return String.format(localizationService.getMessage("userResult"),user,result.getNumOfRightAnswers(),result.getNumOfRightAnswers() + result.getNumOfIncorrectAnswers());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private User readUser() {
         User user = new User();
         System.out.println(localizationService.getMessage("inputName"));
-        user.setFirstName(Utils.scanner.nextLine());
+        user.setFirstName(ioService.readLine());
         System.out.println(localizationService.getMessage("inputLastName"));
-        user.setLastName(Utils.scanner.nextLine());
+        user.setLastName(ioService.readLine());
         return user;
     }
 }
